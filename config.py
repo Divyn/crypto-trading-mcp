@@ -1,0 +1,4 @@
+
+BITQUERY_TOKEN="ory_..j4RCUsKfg"
+WALLET_ADDRESS=""
+

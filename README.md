@@ -1,1 +1,1 @@
-# crypto-trading-mcp
+# MCP with Bitquery DEX Trade Data and Claude for Solana
