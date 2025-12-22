@@ -2,8 +2,6 @@
 
 Video Tutorial [here](https://youtu.be/q-QL5EGfT5k)
 
-Here’s the same content with **timestamps removed** and lightly cleaned for readability:
-
 ## Prerequisites
 
 * A Bitquery account. Sign up [here](http://ide.bitquery.io/).
