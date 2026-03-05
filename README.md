@@ -11,12 +11,12 @@ Video Tutorial [here](https://youtu.be/q-QL5EGfT5k)
 ## Accessing Data & APIs
 
 * Most common APIs and data points are available as examples in Bitquery’s documentation.
-* You can copy Markdown pages directly from the documentation.
+* You can copy Markdown pages directly from the [documentation](https://github.com/bitquery/streaming-data-platform-docs).
 * Support for queries, APIs, and data streams across multiple chains (Bitcoin, Solana, Tron, EVM chains) is available via Telegram or support tickets.
 
 ## Building the MCP
 
-* The video demonstrates using Solana starter queries along with a utilities file to connect to the Bitquery API and fetch data.
+* This code contains utilities file to connect to the Bitquery API and fetch data.
 * Each data point is implemented as a separate function.
 * The Fast MCP library is used to set up the MCP server.
 * MCP functions are created to call these data-point functions and return results.
