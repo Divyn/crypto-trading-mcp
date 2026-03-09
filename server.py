@@ -1,8 +1,13 @@
+import logging
 import os
 
 from dotenv import load_dotenv
 
 load_dotenv()
+
+# Reduce noisy MCP/httpx logs (e.g. "Processing request..." and HTTP request dumps)
+logging.getLogger("mcp").setLevel(logging.WARNING)
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 from openai import OpenAI
 import bitquery_utils as bq
@@ -10,6 +15,7 @@ from mcp.server.fastmcp import FastMCP
 from fastapi import FastAPI
 from starlette.applications import Starlette
 from starlette.routing import Route, Mount
+from starlette.responses import Response
 from mcp.server.sse import SseServerTransport
 
 mcp = FastMCP("BitQuery MCP Server")
@@ -28,6 +34,7 @@ async def handle_sse(request):
             out_stream,
             mcp._mcp_server.create_initialization_options(),
         )
+    return Response()
 
 
 sse_app = Starlette(
