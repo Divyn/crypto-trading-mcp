@@ -1,4 +1,6 @@
+import os
+from dotenv import load_dotenv
 
-BITQUERY_TOKEN="ory_..j4RCUsKfg"
-WALLET_ADDRESS=""
+load_dotenv()
 
+BITQUERY_TOKEN = os.getenv("BITQUERY_TOKEN", "")
