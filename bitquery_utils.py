@@ -11,7 +11,6 @@ load_dotenv()
 BITQUERY_REST_URL = "https://streaming.bitquery.io/eap"
 BITQUERY_WS_URL = "wss://streaming.bitquery.io/eap"
 BITQUERY_TOKEN = config.BITQUERY_TOKEN
-wallet_address = config.WALLET_ADDRESS
 
 HEADERS = {
     "Content-Type": "application/json",
@@ -138,27 +137,6 @@ def get_marketcap(mint_address: str):
     """
     return run_bitquery(query)
 
-# 5. Get Wallet Balances
-def get_wallet_balances(wallet_address: str):
-    query = f"""
-    query WalletBalances {{
-      Solana {{
-        BalanceUpdates(
-          where: {{ BalanceUpdate: {{ Account: {{ Owner: {{ is: "{wallet_address}" }} }} }} }}
-          orderBy: {{ descendingByField: "BalanceUpdate_Balance_maximum" }}
-        ) {{
-          BalanceUpdate {{
-            Balance: PostBalance(maximum: Block_Slot)
-            Currency {{
-              Name
-              Symbol
-            }}
-          }}
-        }}
-      }}
-    }}
-    """
-    return run_bitquery(query)
 
 # 6. Get Top Token Holders
 def get_top_holders(mint_address: str):
@@ -271,6 +249,71 @@ def get_ohlcv_by_pair(
     return run_bitquery(query)
 
 
+
+
+# 11. Get OHLC of a Solana Token (USD values)
+
+def get_token_ohlc_solana(mint_address: str, limit: int = 10):
+    query = f"""
+    query SolanaTokenOHLC {{
+      Trading {{
+        Tokens(
+          limit: {{count: {limit}}}
+          where: {{
+            Interval: {{Time: {{Duration: {{eq: 1}}}}}}
+            Token: {{
+              Network: {{is: "solana"}}
+              Address: {{is: "{mint_address}"}}
+            }}
+          }}
+          orderBy: {{descending: Interval_Time_Start}}
+        ) {{
+          Token {{
+            Address
+            Id
+            IsNative
+            Name
+            Network
+            Symbol
+            TokenId
+          }}
+          Block {{
+            Date
+            Time
+            Timestamp
+          }}
+          Interval {{
+            Time {{
+              Start
+              Duration
+              End
+            }}
+          }}
+          Volume {{
+            Base
+            Quote
+            Usd
+          }}
+          Price {{
+            IsQuotedInUsd
+            Ohlc {{
+              Close
+              High
+              Low
+              Open
+            }}
+            Average {{
+              ExponentialMoving
+              Mean
+              SimpleMoving
+              WeightedSimpleMoving
+            }}
+          }}
+        }}
+      }}
+    }}
+    """
+    return run_bitquery(query)
 
 
 ### ----------- WebSocket Stream Example ----------- ###
